@@ -1,0 +1,4 @@
+- client: meta
+  dockerfile: git
+  build_args:
+    TAG: HEAD-6740cee2b

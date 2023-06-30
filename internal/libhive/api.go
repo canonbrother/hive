@@ -15,6 +15,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/ethereum/hive/internal/simapi"
 	"github.com/gorilla/mux"
 	"gopkg.in/inconshreveable/log15.v2"
@@ -198,6 +199,7 @@ func (api *simAPI) startClient(w http.ResponseWriter, r *http.Request) {
 
 	// Get the client name.
 	clientDef, err := api.checkClient(&clientConfig)
+	fmt.Printf("clientDef: %v\n", *clientDef)
 	if err != nil {
 		log15.Error("API: " + err.Error())
 		serveError(w, err, http.StatusBadRequest)
@@ -238,6 +240,8 @@ func (api *simAPI) startClient(w http.ResponseWriter, r *http.Request) {
 		env["HIVE_LOGLEVEL"] = strconv.Itoa(api.env.SimLogLevel)
 	}
 
+	env["HIVE_CHECK_LIVE_PORT"] = "19554"
+
 	// Set up the timeout.
 	timeout := api.env.ClientStartTimeout
 	if timeout == 0 {
@@ -270,9 +274,13 @@ func (api *simAPI) startClient(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	spew.Dump(env)
+	println("HIVE_CHAIN_ID: ", env["HIVE_CHAIN_ID"])
+	println("HIVE_CHECK_LIVE_PORT: ", env["HIVE_CHECK_LIVE_PORT"])
+
 	// by default: check the eth1 port
-	options.CheckLive = 19554
-	// options.CheckLive = 8545
+	options.CheckLive = 8545
+
 	if portStr := env["HIVE_CHECK_LIVE_PORT"]; portStr != "" {
 		v, err := strconv.ParseUint(portStr, 10, 16)
 		if err != nil {
