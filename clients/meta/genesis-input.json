@@ -1,0 +1,13 @@
+{
+    "coinbase": "0x0000000000000000000000000000000000000000",
+    "difficulty": "0x020000",
+    "extraData": "0x46a",
+    "gasLimit": "0xbb8",
+    "nonce": "0x0",
+    "timestamp": "0x0",
+    "alloc": {
+        "a94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
+            "balance" : "0x09184e72a000"
+        }
+    }
+}
